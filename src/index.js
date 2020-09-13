@@ -7,9 +7,9 @@ import Routes from './routes';
 //import registerServiceWorker from './utils/registerServiceWorker.js';
 
 ReactDOM.render(
-  <React.StrictMode>
+//  <React.StrictMode>
     <Routes history={ browserHistory } />,
-  </React.StrictMode>,
+//  </React.StrictMode>,
   document.getElementById('root')
 );
 
