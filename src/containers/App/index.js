@@ -14,18 +14,16 @@ class App extends Component {
     }
   }
   state = {
-    posts: [],
-    loading: false
+    posts: undefined,
+    loading: true
   }
-  componentWillMount() {
+  componentDidMount() {
 
     let postsRef = firebase.database().ref('posts');
 
     let _this = this;
 
     postsRef.on('value', function(snapshot) {
-      console.log('snapshot', snapshot.val());
-
       _this.setState({
         posts: snapshot.val(),
         loading: false
@@ -34,12 +32,11 @@ class App extends Component {
 
   }
   render() {
-    console.log(this.props.children);
     return (
       <div className="App">
-        {this.props.children && React.cloneElement(
-          this.props.children, {
-            firebaseRef: firebase.database().ref('posts'),
+        {this.props.children && React.cloneElement(this.props.
+          children, {
+            firebase: firebase.database(),
             posts: this.state.posts,
             loading: this.state.loading
           }
