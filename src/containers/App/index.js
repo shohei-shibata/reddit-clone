@@ -9,26 +9,41 @@ class App extends Component {
     super();
     
     // Initialize Firebase
-    //if (!firebase.app.length) {
-      console.log('initialize');
+    if (!firebase.apps.length) {
       firebase.initializeApp(config);
+    }
+  }
+  state = {
+    posts: [],
+    loading: false
+  }
+  componentWillMount() {
 
-      let postsRef = firebase.database().ref('posts');
+    let postsRef = firebase.database().ref('posts');
 
-      let _this = this;
-      
-      console.log(postsRef);
+    let _this = this;
 
-      postsRef.on('value', function(snapshot) {
-        console.log('snapshot', snapshot.val());
+    postsRef.on('value', function(snapshot) {
+      console.log('snapshot', snapshot.val());
+
+      _this.setState({
+        posts: snapshot.val(),
+        loading: false
       });
+    });
 
-    //}
   }
   render() {
+    console.log(this.props.children);
     return (
       <div className="App">
-        Hello World
+        {this.props.children && React.cloneElement(
+          this.props.children, {
+            firebaseRef: firebase.database().ref('posts'),
+            posts: this.state.posts,
+            loading: this.state.loading
+          }
+        )}
       </div>
     );
   }
